@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FaraNight — Thermal Runaway Emulation System</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="FaraLogo.png" />
+</head>
+<body>
+  <!-- ===================== TITLE BAR ===================== -->
+  <header class="app-titlebar">
+    <div class="brand">
+      <img src="FaraLogo.png" alt="FaraNight" class="brand-logo" />
+      <div class="brand-text">
+        <span class="brand-name">FaraNight</span>
+        <span class="brand-sub">Thermal Runaway Emulation System</span>
+      </div>
+    </div>
+    <div class="titlebar-meta">
+      <span class="meta-item">Operator: <strong id="operatorName">N. FINNEMORE</strong></span>
+      <span class="meta-item">Station: <strong>TRE-01</strong></span>
+      <span class="meta-item" id="clock">--:--:--</span>
+    </div>
+  </header>
+
+  <!-- ===================== MENU STRIP ===================== -->
+  <nav class="menu-strip">
+    <div class="menu-item has-menu">
+      <span class="menu-label">File</span>
+      <div class="menu-dropdown">
+        <button class="menu-option" data-action="save">Save Dataset&hellip;</button>
+        <button class="menu-option" data-action="open-new">Open New</button>
+      </div>
+    </div>
+    <div class="menu-item has-menu">
+      <span class="menu-label">View</span>
+      <div class="menu-dropdown">
+        <button class="menu-option" data-action="fullscreen">Toggle Full Screen</button>
+      </div>
+    </div>
+    <div class="menu-item has-menu">
+      <span class="menu-label">Acquisition</span>
+      <div class="menu-dropdown">
+        <button class="menu-option" data-action="start">Start Test</button>
+        <button class="menu-option" data-action="stop">Stop Test</button>
+        <button class="menu-option" data-action="reset">Reset</button>
+      </div>
+    </div>
+    <div class="menu-item">
+      <span class="menu-label" data-action="diagnostics">Diagnostics &amp; Calibration</span>
+    </div>
+    <div class="menu-item">
+      <span class="menu-label" data-action="safety">Safety</span>
+    </div>
+    <div class="menu-item">
+      <span class="menu-label" data-action="help">Help</span>
+    </div>
+    <span class="menu-spacer"></span>
+    <span class="menu-build">v4.2.118 &nbsp;|&nbsp; build 20151104</span>
+  </nav>
+
+  <!-- ===================== MAIN WORKSPACE ===================== -->
+  <main class="workspace">
+
+    <!-- LEFT: pressure graphs -->
+    <section class="panel charts-panel">
+      <div class="panel-header">
+        <span class="panel-title">Pressure Acquisition</span>
+        <span class="panel-header-right" id="activeProfileLabel">Cell: Moli 18650</span>
+      </div>
+      <div class="panel-body charts-body">
+
+        <div class="chart-block">
+          <div class="chart-caption">
+            <span class="chart-name">CH1 &middot; Air Line Pressure</span>
+            <span class="chart-readout">
+              <span class="readout-label">Actual</span>
+              <span class="readout-value" id="airValue">--.- bar</span>
+            </span>
+          </div>
+          <div class="chart-canvas-wrap">
+            <canvas id="airChart"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-block">
+          <div class="chart-caption">
+            <span class="chart-name">CH2 &middot; Propane Line Pressure</span>
+            <span class="chart-readout">
+              <span class="readout-label">Actual</span>
+              <span class="readout-value" id="propaneValue">--.- bar</span>
+            </span>
+          </div>
+          <div class="chart-canvas-wrap">
+            <canvas id="propaneChart"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-legend">
+          <span class="legend-item"><span class="swatch swatch-planned"></span>Planned setpoint</span>
+          <span class="legend-item"><span class="swatch swatch-actual"></span>Actual (live)</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- MIDDLE: temperature graph -->
+    <section class="panel temp-panel">
+      <div class="panel-header">
+        <span class="panel-title">Thermal &amp; Particulate</span>
+        <span class="panel-header-right">&deg;C / g/s</span>
+      </div>
+      <div class="panel-body charts-body">
+        <div class="chart-block">
+          <div class="chart-caption">
+            <span class="chart-name">Temperature Array</span>
+          </div>
+          <div class="temp-readouts">
+            <span class="temp-readout"><span class="dot" style="background:#d9534f"></span>Flame <b id="flameValue">--- &deg;C</b></span>
+            <span class="temp-readout"><span class="dot" style="background:#e0922f"></span>Sample <b id="sampleValue">--- &deg;C</b></span>
+            <span class="temp-readout"><span class="dot" style="background:#3d7c98"></span>Ambient <b id="ambientValue">--- &deg;C</b></span>
+          </div>
+          <div class="chart-canvas-wrap">
+            <canvas id="tempChart"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-block">
+          <div class="chart-caption">
+            <span class="chart-name">Particulate Injection</span>
+            <span class="chart-readout">
+              <span class="readout-label">Actual</span>
+              <span class="readout-value" id="particulateValue">--.- g/s</span>
+            </span>
+          </div>
+          <div class="chart-canvas-wrap">
+            <canvas id="particulateChart"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-legend">
+          <span class="legend-item"><span class="swatch" style="border-top-color:#d9534f"></span>Flame</span>
+          <span class="legend-item"><span class="swatch" style="border-top-color:#e0922f"></span>Sample</span>
+          <span class="legend-item"><span class="swatch" style="border-top-color:#3d7c98"></span>Ambient</span>
+          <span class="legend-item"><span class="swatch swatch-planned"></span>Injection target</span>
+          <span class="legend-item"><span class="swatch" style="border-top-color:#4a8a5c"></span>Injection (live)</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT: controls + camera -->
+    <aside class="side-column">
+
+      <!-- Test control -->
+      <section class="panel control-panel">
+        <div class="panel-header">
+          <span class="panel-title">Test Control</span>
+        </div>
+        <div class="panel-body">
+
+          <label class="field-label">Test Profile</label>
+          <div class="profile-select">
+            <button class="profile-btn is-active" data-test="A">Moli<br>21700</button>
+            <button class="profile-btn" data-test="B">Moli<br>18650</button>
+            <button class="profile-btn" data-test="C">Moli<br>14500</button>
+          </div>
+          <div class="profile-desc" id="profileDesc"></div>
+
+          <div class="control-grid">
+            <div class="control-row">
+              <span class="control-key">Status</span>
+              <span class="control-val status-pill status-idle" id="statusPill">IDLE</span>
+            </div>
+            <div class="control-row">
+              <span class="control-key">Elapsed</span>
+              <span class="control-val" id="elapsedVal">00:00.0</span>
+            </div>
+            <div class="control-row">
+              <span class="control-key">Duration</span>
+              <span class="control-val" id="durationVal">00:60.0</span>
+            </div>
+            <div class="control-row">
+              <span class="control-key">Samples</span>
+              <span class="control-val" id="sampleVal">0</span>
+            </div>
+          </div>
+
+          <div class="progress-track">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+
+          <div class="button-bar">
+            <button class="btn btn-start" id="startBtn">&#9654; START</button>
+            <button class="btn btn-stop" id="stopBtn" disabled>&#9632; E-STOP</button>
+            <button class="btn btn-reset" id="resetBtn">&#8634; RESET</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Camera feed -->
+      <section class="panel camera-panel">
+        <div class="panel-header">
+          <span class="panel-title">Camera Feed</span>
+          <span class="panel-header-right" id="recIndicator">&#9679; OFFLINE</span>
+        </div>
+        <div class="panel-body camera-body">
+          <div class="video-wrap">
+            <video id="cameraFeed" src="test1-propane.mp4" muted playsinline preload="metadata"></video>
+            <div class="video-overlay">
+              <span class="ov-tl">CAM-01 / PROPANE BAY</span>
+              <span class="ov-tr" id="videoTime">00:00:00</span>
+              <span class="ov-bl" id="videoStatusLabel">STANDBY</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </aside>
+  </main>
+
+  <!-- ===================== STATUS BAR ===================== -->
+  <footer class="statusbar">
+    <span class="status-cell" id="statusBarMsg">System ready.</span>
+    <span class="status-cell">DAQ: <strong class="ok">CONNECTED</strong></span>
+    <span class="status-cell">Sample rate: 10 Hz</span>
+    <span class="status-cell">Units: bar (gauge)</span>
+    <span class="status-cell status-cell-right">&copy; 2026 FaraNight Industrial Systems</span>
+  </footer>
+
+  <!-- ===================== CALIBRATION MODAL ===================== -->
+  <div class="modal-overlay" id="calModal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-label="Diagnostics and Calibration">
+      <div class="modal-header">
+        <span>Diagnostics &amp; Calibration</span>
+        <button class="modal-close" id="calClose" title="Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-intro">
+          Live sensor readings. Enter a corrected value in the <em>Calibrate&nbsp;To</em> column
+          for any channel and press SET to apply the calibration.
+        </p>
+        <table class="cal-table">
+          <thead>
+            <tr><th>Sensor</th><th>Current Value</th><th>Calibrate To</th></tr>
+          </thead>
+          <tbody id="calRows"></tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <span class="cal-status" id="calStatus"></span>
+        <button class="btn" id="calSet">SET</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

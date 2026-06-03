@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>dot.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> or <div class="page"></div> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<pre class="hljs"><code><div>    <span class="hljs-comment">// =============================================================</span>
+<span class="hljs-comment">//  Dual-gas PID pressure controller — ZN-optimised</span>
+<span class="hljs-comment">//  ESP32 | DRV8825 stepper | DAC valve output | ADC sensors</span>
+<span class="hljs-comment">// =============================================================</span>
+
+<span class="hljs-comment">// ---- Profile select (A, B, or C) ----------------------------</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> PROFILE A</span>
+
+<span class="hljs-comment">// ---- ADC pins ------------------------------------------------</span>
+<span class="hljs-type">const</span> <span class="hljs-type">uint8_t</span> ADC_PIN_AIR  = <span class="hljs-number">34</span>;
+<span class="hljs-type">const</span> <span class="hljs-type">uint8_t</span> ADC_PIN_PROP = <span class="hljs-number">35</span>;
+
+<span class="hljs-comment">// ---- DAC pins (PID output → valve/regulator) ----------------</span>
+<span class="hljs-type">const</span> <span class="hljs-type">uint8_t</span> DAC_PIN_AIR  = <span class="hljs-number">25</span>;
+<span class="hljs-type">const</span> <span class="hljs-type">uint8_t</span> DAC_PIN_PROP = <span class="hljs-number">26</span>;
+
+<span class="hljs-comment">// ---- Stepper (DRV8825, 200 steps/rev) -----------------------</span>
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> STEP_PIN      = <span class="hljs-number">18</span>;
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> DIR_PIN       = <span class="hljs-number">19</span>;
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> STEPS_PER_REV = <span class="hljs-number">200</span>;
+<span class="hljs-type">const</span> <span class="hljs-type">float</span> RPM         = <span class="hljs-number">8.0</span>;
+<span class="hljs-type">const</span> <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> halfPeriodUs =
+    (<span class="hljs-type">unsigned</span> <span class="hljs-type">long</span>)(<span class="hljs-number">60000000.0</span> / (RPM * STEPS_PER_REV * <span class="hljs-number">2.0</span>));
+
+<span class="hljs-comment">// ---- Igniter pulse ------------------------------------------</span>
+<span class="hljs-type">const</span> <span class="hljs-type">uint8_t</span> IGNITER_PULSE_PIN   = <span class="hljs-number">16</span>;
+<span class="hljs-type">const</span> <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> IGNITER_PULSE_MS  = <span class="hljs-number">250</span>;
+<span class="hljs-type">const</span> <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> IGNITER_PERIOD_MS = <span class="hljs-number">1000</span>;
+
+<span class="hljs-comment">// ---- PID loop interval --------------------------------------</span>
+<span class="hljs-type">const</span> <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> PID_INTERVAL_MS = <span class="hljs-number">100</span>;
+
+<span class="hljs-comment">// ---- ADC → pressure scaling ---------------------------------</span>
+<span class="hljs-comment">// Sensor: 0.25–2.25 V → 0–10 bar</span>
+<span class="hljs-comment">// ESP32 ADC: 0–3.3 V → 0–4095 counts</span>
+<span class="hljs-type">const</span> <span class="hljs-type">float</span> V_LOW   = <span class="hljs-number">0.25f</span>;
+<span class="hljs-type">const</span> <span class="hljs-type">float</span> V_HIGH  = <span class="hljs-number">2.25f</span>;
+<span class="hljs-type">const</span> <span class="hljs-type">float</span> P_LOW   = <span class="hljs-number">0.0f</span>;
+<span class="hljs-type">const</span> <span class="hljs-type">float</span> P_HIGH  = <span class="hljs-number">10.0f</span>;
+<span class="hljs-type">const</span> <span class="hljs-type">float</span> ADC_MAX = <span class="hljs-number">4095.0f</span>;
+<span class="hljs-type">const</span> <span class="hljs-type">float</span> VCC     = <span class="hljs-number">3.3f</span>;
+
+<span class="hljs-function"><span class="hljs-type">float</span> <span class="hljs-title">adcToPressure</span><span class="hljs-params">(<span class="hljs-type">int</span> raw)</span> </span>{
+    <span class="hljs-type">float</span> v = (raw / ADC_MAX) * VCC;
+    <span class="hljs-keyword">return</span> (v - V_LOW) / (V_HIGH - V_LOW) * (P_HIGH - P_LOW) + P_LOW;
+}
+
+<span class="hljs-comment">// ---- Pressure profile arrays --------------------------------</span>
+<span class="hljs-comment">// Format: {time_s, air_setpoint_bar, propane_setpoint_bar}</span>
+<span class="hljs-comment">// Generated from sinusoidal profiles A/B/C sampled at 1-second intervals.</span>
+<span class="hljs-comment">// Setpoint = offset + amplitude * sin(2π*t/period + phase), clamped 0–10 bar.</span>
+
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> PROFILE_POINTS_A 120</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> PROFILE_POINTS_B 90</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> PROFILE_POINTS_C 60</span>
+
+<span class="hljs-comment">// Profile A — 120s, slow sinusoid</span>
+<span class="hljs-type">const</span> <span class="hljs-type">float</span> profileA_air[PROFILE_POINTS_A] = {
+    <span class="hljs-number">3.00</span>,<span class="hljs-number">3.24</span>,<span class="hljs-number">3.46</span>,<span class="hljs-number">3.64</span>,<span class="hljs-number">3.78</span>,<span class="hljs-number">3.87</span>,<span class="hljs-number">3.92</span>,<span class="hljs-number">3.93</span>,<span class="hljs-number">3.89</span>,<span class="hljs-number">3.80</span>,
+    <span class="hljs-number">3.68</span>,<span class="hljs-number">3.53</span>,<span class="hljs-number">3.37</span>,<span class="hljs-number">3.20</span>,<span class="hljs-number">3.04</span>,<span class="hljs-number">2.90</span>,<span class="hljs-number">2.79</span>,<span class="hljs-number">2.72</span>,<span class="hljs-number">2.70</span>,<span class="hljs-number">2.72</span>,
+    <span class="hljs-number">2.78</span>,<span class="hljs-number">2.88</span>,<span class="hljs-number">3.00</span>,<span class="hljs-number">3.14</span>,<span class="hljs-number">3.28</span>,<span class="hljs-number">3.42</span>,<span class="hljs-number">3.54</span>,<span class="hljs-number">3.63</span>,<span class="hljs-number">3.69</span>,<span class="hljs-number">3.71</span>,
+    <span class="hljs-number">3.70</span>,<span class="hljs-number">3.65</span>,<span class="hljs-number">3.57</span>,<span class="hljs-number">3.46</span>,<span class="hljs-number">3.34</span>,<span class="hljs-number">3.21</span>,<span class="hljs-number">3.08</span>,<span class="hljs-number">2.97</span>,<span class="hljs-number">2.87</span>,<span class="hljs-number">2.80</span>,
+    <span class="hljs-number">2.77</span>,<span class="hljs-number">2.77</span>,<span class="hljs-number">2.81</span>,<span class="hljs-number">2.88</span>,<span class="hljs-number">2.97</span>,<span class="hljs-number">3.08</span>,<span class="hljs-number">3.19</span>,<span class="hljs-number">3.30</span>,<span class="hljs-number">3.40</span>,<span class="hljs-number">3.49</span>,
+    <span class="hljs-number">3.55</span>,<span class="hljs-number">3.59</span>,<span class="hljs-number">3.60</span>,<span class="hljs-number">3.59</span>,<span class="hljs-number">3.55</span>,<span class="hljs-number">3.48</span>,<span class="hljs-number">3.40</span>,<span class="hljs-number">3.30</span>,<span class="hljs-number">3.20</span>,<span class="hljs-number">3.10</span>,
+    <span class="hljs-number">3.00</span>,<span class="hljs-number">2.91</span>,<span class="hljs-number">2.84</span>,<span class="hljs-number">2.79</span>,<span class="hljs-number">2.77</span>,<span class="hljs-number">2.77</span>,<span class="hljs-number">2.80</span>,<span class="hljs-number">2.85</span>,<span class="hljs-number">2.92</span>,<span class="hljs-number">3.00</span>,
+    <span class="hljs-number">3.09</span>,<span class="hljs-number">3.18</span>,<span class="hljs-number">3.27</span>,<span class="hljs-number">3.35</span>,<span class="hljs-number">3.42</span>,<span class="hljs-number">3.47</span>,<span class="hljs-number">3.50</span>,<span class="hljs-number">3.51</span>,<span class="hljs-number">3.50</span>,<span class="hljs-number">3.47</span>,
+    <span class="hljs-number">3.42</span>,<span class="hljs-number">3.35</span>,<span class="hljs-number">3.27</span>,<span class="hljs-number">3.18</span>,<span class="hljs-number">3.09</span>,<span class="hljs-number">3.00</span>,<span class="hljs-number">2.91</span>,<span class="hljs-number">2.83</span>,<span class="hljs-number">2.78</span>,<span class="hljs-number">2.75</span>,
+    <span class="hljs-number">2.75</span>,<span class="hljs-number">2.77</span>,<span class="hljs-number">2.82</span>,<span class="hljs-number">2.88</span>,<span class="hljs-number">2.96</span>,<span class="hljs-number">3.05</span>,<span class="hljs-number">3.14</span>,<span class="hljs-number">3.23</span>,<span class="hljs-number">3.31</span>,<span class="hljs-number">3.38</span>,
+    <span class="hljs-number">3.44</span>,<span class="hljs-number">3.48</span>,<span class="hljs-number">3.50</span>,<span class="hljs-number">3.50</span>,<span class="hljs-number">3.48</span>,<span class="hljs-number">3.44</span>,<span class="hljs-number">3.38</span>,<span class="hljs-number">3.31</span>,<span class="hljs-number">3.23</span>,<span class="hljs-number">3.14</span>,
+    <span class="hljs-number">3.05</span>,<span class="hljs-number">2.96</span>,<span class="hljs-number">2.88</span>,<span class="hljs-number">2.82</span>,<span class="hljs-number">2.77</span>,<span class="hljs-number">2.75</span>,<span class="hljs-number">2.75</span>,<span class="hljs-number">2.78</span>,<span class="hljs-number">2.83</span>,<span class="hljs-number">2.91</span>
+};
+<span class="hljs-type">const</span> <span class="hljs-type">float</span> profileA_prop[PROFILE_POINTS_A] = {
+    <span class="hljs-number">5.00</span>,<span class="hljs-number">5.31</span>,<span class="hljs-number">5.60</span>,<span class="hljs-number">5.85</span>,<span class="hljs-number">6.06</span>,<span class="hljs-number">6.21</span>,<span class="hljs-number">6.29</span>,<span class="hljs-number">6.31</span>,<span class="hljs-number">6.26</span>,<span class="hljs-number">6.16</span>,
+    <span class="hljs-number">6.00</span>,<span class="hljs-number">5.82</span>,<span class="hljs-number">5.61</span>,<span class="hljs-number">5.40</span>,<span class="hljs-number">5.19</span>,<span class="hljs-number">5.00</span>,<span class="hljs-number">4.84</span>,<span class="hljs-number">4.72</span>,<span class="hljs-number">4.65</span>,<span class="hljs-number">4.63</span>,
+    <span class="hljs-number">4.67</span>,<span class="hljs-number">4.76</span>,<span class="hljs-number">4.90</span>,<span class="hljs-number">5.07</span>,<span class="hljs-number">5.25</span>,<span class="hljs-number">5.43</span>,<span class="hljs-number">5.60</span>,<span class="hljs-number">5.74</span>,<span class="hljs-number">5.84</span>,<span class="hljs-number">5.90</span>,
+    <span class="hljs-number">5.91</span>,<span class="hljs-number">5.87</span>,<span class="hljs-number">5.79</span>,<span class="hljs-number">5.67</span>,<span class="hljs-number">5.52</span>,<span class="hljs-number">5.36</span>,<span class="hljs-number">5.19</span>,<span class="hljs-number">5.03</span>,<span class="hljs-number">4.89</span>,<span class="hljs-number">4.79</span>,
+    <span class="hljs-number">4.73</span>,<span class="hljs-number">4.72</span>,<span class="hljs-number">4.76</span>,<span class="hljs-number">4.85</span>,<span class="hljs-number">4.97</span>,<span class="hljs-number">5.12</span>,<span class="hljs-number">5.28</span>,<span class="hljs-number">5.44</span>,<span class="hljs-number">5.58</span>,<span class="hljs-number">5.69</span>,
+    <span class="hljs-number">5.77</span>,<span class="hljs-number">5.81</span>,<span class="hljs-number">5.80</span>,<span class="hljs-number">5.76</span>,<span class="hljs-number">5.68</span>,<span class="hljs-number">5.57</span>,<span class="hljs-number">5.44</span>,<span class="hljs-number">5.30</span>,<span class="hljs-number">5.15</span>,<span class="hljs-number">5.01</span>,
+    <span class="hljs-number">4.88</span>,<span class="hljs-number">4.78</span>,<span class="hljs-number">4.72</span>,<span class="hljs-number">4.70</span>,<span class="hljs-number">4.73</span>,<span class="hljs-number">4.79</span>,<span class="hljs-number">4.89</span>,<span class="hljs-number">5.01</span>,<span class="hljs-number">5.15</span>,<span class="hljs-number">5.30</span>,
+    <span class="hljs-number">5.44</span>,<span class="hljs-number">5.57</span>,<span class="hljs-number">5.68</span>,<span class="hljs-number">5.76</span>,<span class="hljs-number">5.80</span>,<span class="hljs-number">5.81</span>,<span class="hljs-number">5.77</span>,<span class="hljs-number">5.69</span>,<span class="hljs-number">5.58</span>,<span class="hljs-number">5.44</span>,
+    <span class="hljs-number">5.28</span>,<span class="hljs-number">5.12</span>,<span class="hljs-number">4.97</span>,<span class="hljs-number">4.85</span>,<span class="hljs-number">4.76</span>,<span class="hljs-number">4.72</span>,<span class="hljs-number">4.72</span>,<span class="hljs-number">4.79</span>,<span class="hljs-number">4.89</span>,<span class="hljs-number">5.03</span>,
+    <span class="hljs-number">5.19</span>,<span class="hljs-number">5.36</span>,<span class="hljs-number">5.52</span>,<span class="hljs-number">5.67</span>,<span class="hljs-number">5.79</span>,<span class="hljs-number">5.87</span>,<span class="hljs-number">5.91</span>,<span class="hljs-number">5.90</span>,<span class="hljs-number">5.84</span>,<span class="hljs-number">5.74</span>,
+    <span class="hljs-number">5.60</span>,<span class="hljs-number">5.43</span>,<span class="hljs-number">5.25</span>,<span class="hljs-number">5.07</span>,<span class="hljs-number">4.90</span>,<span class="hljs-number">4.76</span>,<span class="hljs-number">4.67</span>,<span class="hljs-number">4.63</span>,<span class="hljs-number">4.65</span>,<span class="hljs-number">4.72</span>,
+    <span class="hljs-number">4.84</span>,<span class="hljs-number">5.00</span>,<span class="hljs-number">5.19</span>,<span class="hljs-number">5.40</span>,<span class="hljs-number">5.61</span>,<span class="hljs-number">5.82</span>,<span class="hljs-number">6.00</span>,<span class="hljs-number">6.16</span>,<span class="hljs-number">6.26</span>,<span class="hljs-number">6.31</span>
+};
+
+<span class="hljs-comment">// Profile B — 90s, faster &amp; phase-shifted</span>
+<span class="hljs-type">const</span> <span class="hljs-type">float</span> profileB_air[PROFILE_POINTS_B] = {
+    <span class="hljs-number">4.00</span>,<span class="hljs-number">4.45</span>,<span class="hljs-number">4.83</span>,<span class="hljs-number">5.10</span>,<span class="hljs-number">5.24</span>,<span class="hljs-number">5.24</span>,<span class="hljs-number">5.11</span>,<span class="hljs-number">4.89</span>,<span class="hljs-number">4.61</span>,<span class="hljs-number">4.33</span>,
+    <span class="hljs-number">4.10</span>,<span class="hljs-number">3.95</span>,<span class="hljs-number">3.92</span>,<span class="hljs-number">4.01</span>,<span class="hljs-number">4.20</span>,<span class="hljs-number">4.46</span>,<span class="hljs-number">4.74</span>,<span class="hljs-number">4.99</span>,<span class="hljs-number">5.17</span>,<span class="hljs-number">5.24</span>,
+    <span class="hljs-number">5.18</span>,<span class="hljs-number">5.02</span>,<span class="hljs-number">4.78</span>,<span class="hljs-number">4.52</span>,<span class="hljs-number">4.28</span>,<span class="hljs-number">4.12</span>,<span class="hljs-number">4.06</span>,<span class="hljs-number">4.12</span>,<span class="hljs-number">4.29</span>,<span class="hljs-number">4.54</span>,
+    <span class="hljs-number">4.80</span>,<span class="hljs-number">5.03</span>,<span class="hljs-number">5.19</span>,<span class="hljs-number">5.24</span>,<span class="hljs-number">5.16</span>,<span class="hljs-number">4.98</span>,<span class="hljs-number">4.73</span>,<span class="hljs-number">4.47</span>,<span class="hljs-number">4.24</span>,<span class="hljs-number">4.09</span>,
+    <span class="hljs-number">4.04</span>,<span class="hljs-number">4.12</span>,<span class="hljs-number">4.30</span>,<span class="hljs-number">4.56</span>,<span class="hljs-number">4.82</span>,<span class="hljs-number">5.04</span>,<span class="hljs-number">5.19</span>,<span class="hljs-number">5.23</span>,<span class="hljs-number">5.14</span>,<span class="hljs-number">4.95</span>,
+    <span class="hljs-number">4.70</span>,<span class="hljs-number">4.44</span>,<span class="hljs-number">4.22</span>,<span class="hljs-number">4.08</span>,<span class="hljs-number">4.05</span>,<span class="hljs-number">4.14</span>,<span class="hljs-number">4.33</span>,<span class="hljs-number">4.58</span>,<span class="hljs-number">4.84</span>,<span class="hljs-number">5.05</span>,
+    <span class="hljs-number">5.18</span>,<span class="hljs-number">5.21</span>,<span class="hljs-number">5.11</span>,<span class="hljs-number">4.92</span>,<span class="hljs-number">4.67</span>,<span class="hljs-number">4.41</span>,<span class="hljs-number">4.20</span>,<span class="hljs-number">4.07</span>,<span class="hljs-number">4.06</span>,<span class="hljs-number">4.16</span>,
+    <span class="hljs-number">4.36</span>,<span class="hljs-number">4.61</span>,<span class="hljs-number">4.86</span>,<span class="hljs-number">5.06</span>,<span class="hljs-number">5.18</span>,<span class="hljs-number">5.19</span>,<span class="hljs-number">5.09</span>,<span class="hljs-number">4.89</span>,<span class="hljs-number">4.64</span>,<span class="hljs-number">4.38</span>,
+    <span class="hljs-number">4.16</span>,<span class="hljs-number">4.03</span>,<span class="hljs-number">4.03</span>,<span class="hljs-number">4.14</span>,<span class="hljs-number">4.35</span>,<span class="hljs-number">4.61</span>,<span class="hljs-number">4.87</span>,<span class="hljs-number">5.06</span>,<span class="hljs-number">5.17</span>,<span class="hljs-number">5.17</span>
+};
+<span class="hljs-type">const</span> <span class="hljs-type">float</span> profileB_prop[PROFILE_POINTS_B] = {
+    <span class="hljs-number">6.00</span>,<span class="hljs-number">6.73</span>,<span class="hljs-number">7.28</span>,<span class="hljs-number">7.56</span>,<span class="hljs-number">7.53</span>,<span class="hljs-number">7.21</span>,<span class="hljs-number">6.69</span>,<span class="hljs-number">6.08</span>,<span class="hljs-number">5.50</span>,<span class="hljs-number">5.05</span>,
+    <span class="hljs-number">4.82</span>,<span class="hljs-number">4.85</span>,<span class="hljs-number">5.13</span>,<span class="hljs-number">5.60</span>,<span class="hljs-number">6.16</span>,<span class="hljs-number">6.70</span>,<span class="hljs-number">7.11</span>,<span class="hljs-number">7.31</span>,<span class="hljs-number">7.26</span>,<span class="hljs-number">6.97</span>,
+    <span class="hljs-number">6.49</span>,<span class="hljs-number">5.93</span>,<span class="hljs-number">5.40</span>,<span class="hljs-number">5.00</span>,<span class="hljs-number">4.80</span>,<span class="hljs-number">4.85</span>,<span class="hljs-number">5.14</span>,<span class="hljs-number">5.62</span>,<span class="hljs-number">6.18</span>,<span class="hljs-number">6.71</span>,
+    <span class="hljs-number">7.10</span>,<span class="hljs-number">7.30</span>,<span class="hljs-number">7.23</span>,<span class="hljs-number">6.93</span>,<span class="hljs-number">6.44</span>,<span class="hljs-number">5.88</span>,<span class="hljs-number">5.36</span>,<span class="hljs-number">4.97</span>,<span class="hljs-number">4.79</span>,<span class="hljs-number">4.86</span>,
+    <span class="hljs-number">5.17</span>,<span class="hljs-number">5.66</span>,<span class="hljs-number">6.21</span>,<span class="hljs-number">6.73</span>,<span class="hljs-number">7.11</span>,<span class="hljs-number">7.29</span>,<span class="hljs-number">7.21</span>,<span class="hljs-number">6.90</span>,<span class="hljs-number">6.40</span>,<span class="hljs-number">5.83</span>,
+    <span class="hljs-number">5.32</span>,<span class="hljs-number">4.95</span>,<span class="hljs-number">4.79</span>,<span class="hljs-number">4.88</span>,<span class="hljs-number">5.20</span>,<span class="hljs-number">5.70</span>,<span class="hljs-number">6.24</span>,<span class="hljs-number">6.75</span>,<span class="hljs-number">7.11</span>,<span class="hljs-number">7.27</span>,
+    <span class="hljs-number">7.18</span>,<span class="hljs-number">6.86</span>,<span class="hljs-number">6.35</span>,<span class="hljs-number">5.79</span>,<span class="hljs-number">5.29</span>,<span class="hljs-number">4.93</span>,<span class="hljs-number">4.79</span>,<span class="hljs-number">4.90</span>,<span class="hljs-number">5.23</span>,<span class="hljs-number">5.73</span>,
+    <span class="hljs-number">6.27</span>,<span class="hljs-number">6.77</span>,<span class="hljs-number">7.11</span>,<span class="hljs-number">7.25</span>,<span class="hljs-number">7.14</span>,<span class="hljs-number">6.81</span>,<span class="hljs-number">6.30</span>,<span class="hljs-number">5.74</span>,<span class="hljs-number">5.25</span>,<span class="hljs-number">4.91</span>,
+    <span class="hljs-number">4.79</span>,<span class="hljs-number">4.92</span>,<span class="hljs-number">5.26</span>,<span class="hljs-number">5.77</span>,<span class="hljs-number">6.30</span>,<span class="hljs-number">6.79</span>,<span class="hljs-number">7.12</span>,<span class="hljs-number">7.24</span>,<span class="hljs-number">7.12</span>,<span class="hljs-number">6.78</span>
+};
+
+<span class="hljs-comment">// Profile C — 60s, aggressive</span>
+<span class="hljs-type">const</span> <span class="hljs-type">float</span> profileC_air[PROFILE_POINTS_C] = {
+    <span class="hljs-number">5.50</span>,<span class="hljs-number">6.16</span>,<span class="hljs-number">6.68</span>,<span class="hljs-number">6.95</span>,<span class="hljs-number">6.90</span>,<span class="hljs-number">6.54</span>,<span class="hljs-number">5.96</span>,<span class="hljs-number">5.28</span>,<span class="hljs-number">4.65</span>,<span class="hljs-number">4.21</span>,
+    <span class="hljs-number">4.06</span>,<span class="hljs-number">4.25</span>,<span class="hljs-number">4.74</span>,<span class="hljs-number">5.39</span>,<span class="hljs-number">6.03</span>,<span class="hljs-number">6.51</span>,<span class="hljs-number">6.74</span>,<span class="hljs-number">6.65</span>,<span class="hljs-number">6.28</span>,<span class="hljs-number">5.70</span>,
+    <span class="hljs-number">5.04</span>,<span class="hljs-number">4.48</span>,<span class="hljs-number">4.13</span>,<span class="hljs-number">4.10</span>,<span class="hljs-number">4.40</span>,<span class="hljs-number">4.95</span>,<span class="hljs-number">5.61</span>,<span class="hljs-number">6.17</span>,<span class="hljs-number">6.52</span>,<span class="hljs-number">6.57</span>,
+    <span class="hljs-number">6.29</span>,<span class="hljs-number">5.76</span>,<span class="hljs-number">5.12</span>,<span class="hljs-number">4.55</span>,<span class="hljs-number">4.17</span>,<span class="hljs-number">4.12</span>,<span class="hljs-number">4.42</span>,<span class="hljs-number">4.98</span>,<span class="hljs-number">5.64</span>,<span class="hljs-number">6.19</span>,
+    <span class="hljs-number">6.53</span>,<span class="hljs-number">6.56</span>,<span class="hljs-number">6.27</span>,<span class="hljs-number">5.73</span>,<span class="hljs-number">5.09</span>,<span class="hljs-number">4.53</span>,<span class="hljs-number">4.16</span>,<span class="hljs-number">4.13</span>,<span class="hljs-number">4.44</span>,<span class="hljs-number">5.01</span>,
+    <span class="hljs-number">5.67</span>,<span class="hljs-number">6.21</span>,<span class="hljs-number">6.53</span>,<span class="hljs-number">6.55</span>,<span class="hljs-number">6.24</span>,<span class="hljs-number">5.69</span>,<span class="hljs-number">5.05</span>,<span class="hljs-number">4.49</span>,<span class="hljs-number">4.14</span>,<span class="hljs-number">4.13</span>
+};
+<span class="hljs-type">const</span> <span class="hljs-type">float</span> profileC_prop[PROFILE_POINTS_C] = {
+    <span class="hljs-number">7.00</span>,<span class="hljs-number">8.09</span>,<span class="hljs-number">8.72</span>,<span class="hljs-number">8.65</span>,<span class="hljs-number">7.96</span>,<span class="hljs-number">6.88</span>,<span class="hljs-number">5.72</span>,<span class="hljs-number">4.79</span>,<span class="hljs-number">4.33</span>,<span class="hljs-number">4.44</span>,
+    <span class="hljs-number">5.07</span>,<span class="hljs-number">5.99</span>,<span class="hljs-number">6.92</span>,<span class="hljs-number">7.58</span>,<span class="hljs-number">7.77</span>,<span class="hljs-number">7.42</span>,<span class="hljs-number">6.64</span>,<span class="hljs-number">5.63</span>,<span class="hljs-number">4.73</span>,<span class="hljs-number">4.24</span>,
+    <span class="hljs-number">4.31</span>,<span class="hljs-number">4.92</span>,<span class="hljs-number">5.84</span>,<span class="hljs-number">6.79</span>,<span class="hljs-number">7.49</span>,<span class="hljs-number">7.72</span>,<span class="hljs-number">7.41</span>,<span class="hljs-number">6.65</span>,<span class="hljs-number">5.65</span>,<span class="hljs-number">4.74</span>,
+    <span class="hljs-number">4.24</span>,<span class="hljs-number">4.31</span>,<span class="hljs-number">4.91</span>,<span class="hljs-number">5.83</span>,<span class="hljs-number">6.78</span>,<span class="hljs-number">7.49</span>,<span class="hljs-number">7.72</span>,<span class="hljs-number">7.42</span>,<span class="hljs-number">6.67</span>,<span class="hljs-number">5.68</span>,
+    <span class="hljs-number">4.77</span>,<span class="hljs-number">4.26</span>,<span class="hljs-number">4.31</span>,<span class="hljs-number">4.90</span>,<span class="hljs-number">5.81</span>,<span class="hljs-number">6.76</span>,<span class="hljs-number">7.47</span>,<span class="hljs-number">7.71</span>,<span class="hljs-number">7.43</span>,<span class="hljs-number">6.69</span>,
+    <span class="hljs-number">5.71</span>,<span class="hljs-number">4.80</span>,<span class="hljs-number">4.28</span>,<span class="hljs-number">4.31</span>,<span class="hljs-number">4.88</span>,<span class="hljs-number">5.79</span>,<span class="hljs-number">6.73</span>,<span class="hljs-number">7.45</span>,<span class="hljs-number">7.70</span>,<span class="hljs-number">7.44</span>
+};
+
+<span class="hljs-comment">// ---- Active profile selection --------------------------------</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> _PROFILE_SELECT(P) PROFILE_ ## P</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> _LEN_SELECT(P)     PROFILE_POINTS_ ## P</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> _AIR_SELECT(P)     profile ## P ## _air</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> _PROP_SELECT(P)    profile ## P ## _prop</span>
+
+<span class="hljs-type">const</span> <span class="hljs-type">float</span>* activeAir    = _AIR_SELECT(PROFILE);
+<span class="hljs-type">const</span> <span class="hljs-type">float</span>* activeProp   = _PROP_SELECT(PROFILE);
+<span class="hljs-type">const</span> <span class="hljs-type">int</span>    profileLen   = _LEN_SELECT(PROFILE);
+
+<span class="hljs-comment">// ---- ZN-tuned PID -------------------------------------------</span>
+<span class="hljs-comment">// Using &quot;no-overshoot&quot; ZN rules: Kp=0.2Ku, Ti=Tu/2, Td=Tu/3</span>
+<span class="hljs-comment">// Ku and Tu must be identified per rig; placeholders set here.</span>
+<span class="hljs-comment">// To tune: set Kp=Ku, Ki=Kd=0, increase Ku until sustained oscillation, note Tu.</span>
+
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">PIDState</span> {
+    <span class="hljs-type">float</span> Kp, Ki, Kd;
+    <span class="hljs-type">float</span> integral;
+    <span class="hljs-type">float</span> prevError;
+    <span class="hljs-type">float</span> outMin, outMax;
+};
+
+<span class="hljs-comment">// Placeholder ZN values — replace Ku/Tu with measured values</span>
+<span class="hljs-type">const</span> <span class="hljs-type">float</span> Ku = <span class="hljs-number">80.0f</span>;   <span class="hljs-comment">// ultimate gain (DAC units / bar)</span>
+<span class="hljs-type">const</span> <span class="hljs-type">float</span> Tu = <span class="hljs-number">5.0f</span>;    <span class="hljs-comment">// oscillation period in seconds</span>
+
+PIDState pidAir  = { <span class="hljs-number">0.2f</span>*Ku, (<span class="hljs-number">0.2f</span>*Ku)/(<span class="hljs-number">0.5f</span>*Tu), (<span class="hljs-number">0.2f</span>*Ku)*(Tu/<span class="hljs-number">3.0f</span>)/<span class="hljs-number">1000.0f</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">255</span> };
+PIDState pidProp = { <span class="hljs-number">0.2f</span>*Ku, (<span class="hljs-number">0.2f</span>*Ku)/(<span class="hljs-number">0.5f</span>*Tu), (<span class="hljs-number">0.2f</span>*Ku)*(Tu/<span class="hljs-number">3.0f</span>)/<span class="hljs-number">1000.0f</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">255</span> };
+
+<span class="hljs-function"><span class="hljs-type">float</span> <span class="hljs-title">pidUpdate</span><span class="hljs-params">(PIDState &amp;s, <span class="hljs-type">float</span> setpoint, <span class="hljs-type">float</span> measured, <span class="hljs-type">float</span> dtSec)</span> </span>{
+    <span class="hljs-type">float</span> err  = setpoint - measured;
+    s.integral += err * dtSec;
+    <span class="hljs-comment">// Anti-windup: clamp integral</span>
+    <span class="hljs-type">float</span> maxInt = s.outMax / (s.Ki &gt; <span class="hljs-number">0</span> ? s.Ki : <span class="hljs-number">1.0f</span>);
+    s.integral = <span class="hljs-built_in">constrain</span>(s.integral, -maxInt, maxInt);
+    <span class="hljs-type">float</span> deriv = (err - s.prevError) / dtSec;
+    s.prevError = err;
+    <span class="hljs-type">float</span> out = s.Kp * err + s.Ki * s.integral + s.Kd * deriv;
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">constrain</span>(out, s.outMin, s.outMax);
+}
+
+<span class="hljs-comment">// ---- Pressure → DAC scaling ---------------------------------</span>
+<span class="hljs-comment">// 0–10 bar maps to DAC 0–255</span>
+<span class="hljs-function"><span class="hljs-type">uint8_t</span> <span class="hljs-title">pressureToDac</span><span class="hljs-params">(<span class="hljs-type">float</span> bar)</span> </span>{
+    <span class="hljs-keyword">return</span> (<span class="hljs-type">uint8_t</span>)<span class="hljs-built_in">constrain</span>((bar / P_HIGH) * <span class="hljs-number">255.0f</span>, <span class="hljs-number">0.0f</span>, <span class="hljs-number">255.0f</span>);
+}
+
+<span class="hljs-comment">// ---- Timing state -------------------------------------------</span>
+<span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> lastToggleUs  = <span class="hljs-number">0</span>;
+<span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> lastEdgeMs    = <span class="hljs-number">0</span>;
+<span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> lastPidMs     = <span class="hljs-number">0</span>;
+<span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> profileStartMs= <span class="hljs-number">0</span>;
+<span class="hljs-type">bool</span> stepState   = <span class="hljs-literal">false</span>;
+<span class="hljs-type">bool</span> pulseHigh   = <span class="hljs-literal">false</span>;
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">setup</span><span class="hljs-params">()</span> </span>{
+    Serial.<span class="hljs-built_in">begin</span>(<span class="hljs-number">115200</span>);
+
+    <span class="hljs-built_in">pinMode</span>(STEP_PIN, OUTPUT);
+    <span class="hljs-built_in">pinMode</span>(DIR_PIN,  OUTPUT);
+    <span class="hljs-built_in">digitalWrite</span>(DIR_PIN, HIGH);
+
+    <span class="hljs-built_in">pinMode</span>(IGNITER_PULSE_PIN, OUTPUT);
+    <span class="hljs-built_in">digitalWrite</span>(IGNITER_PULSE_PIN, LOW);
+
+    <span class="hljs-built_in">dacWrite</span>(DAC_PIN_AIR,  <span class="hljs-number">0</span>);
+    <span class="hljs-built_in">dacWrite</span>(DAC_PIN_PROP, <span class="hljs-number">0</span>);
+
+    lastToggleUs   = <span class="hljs-built_in">micros</span>();
+    lastEdgeMs     = <span class="hljs-built_in">millis</span>();
+    lastPidMs      = <span class="hljs-built_in">millis</span>();
+    profileStartMs = <span class="hljs-built_in">millis</span>();
+}
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">loop</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> nowMs = <span class="hljs-built_in">millis</span>();
+    <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> nowUs = <span class="hljs-built_in">micros</span>();
+
+    <span class="hljs-comment">// --- Stepper ---</span>
+    <span class="hljs-keyword">if</span> (nowUs - lastToggleUs &gt;= halfPeriodUs) {
+        stepState = !stepState;
+        <span class="hljs-built_in">digitalWrite</span>(STEP_PIN, stepState);
+        lastToggleUs = nowUs;
+    }
+
+    <span class="hljs-comment">// --- Igniter pulse ---</span>
+    <span class="hljs-keyword">if</span> (!pulseHigh &amp;&amp; (nowMs - lastEdgeMs &gt;= IGNITER_PERIOD_MS - IGNITER_PULSE_MS)) {
+        <span class="hljs-built_in">digitalWrite</span>(IGNITER_PULSE_PIN, HIGH);
+        pulseHigh = <span class="hljs-literal">true</span>;
+        lastEdgeMs = nowMs;
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (pulseHigh &amp;&amp; (nowMs - lastEdgeMs &gt;= IGNITER_PULSE_MS)) {
+        <span class="hljs-built_in">digitalWrite</span>(IGNITER_PULSE_PIN, LOW);
+        pulseHigh = <span class="hljs-literal">false</span>;
+        lastEdgeMs = nowMs;
+    }
+
+    <span class="hljs-comment">// --- PID update ---</span>
+    <span class="hljs-keyword">if</span> (nowMs - lastPidMs &gt;= PID_INTERVAL_MS) {
+        <span class="hljs-type">float</span> dtSec = (nowMs - lastPidMs) / <span class="hljs-number">1000.0f</span>;
+        lastPidMs = nowMs;
+
+        <span class="hljs-comment">// Profile index (1 sample per second)</span>
+        <span class="hljs-type">int</span> idx = (<span class="hljs-type">int</span>)((nowMs - profileStartMs) / <span class="hljs-number">1000UL</span>);
+        idx = <span class="hljs-built_in">constrain</span>(idx, <span class="hljs-number">0</span>, profileLen - <span class="hljs-number">1</span>);
+
+        <span class="hljs-type">float</span> spAir  = activeAir[idx];
+        <span class="hljs-type">float</span> spProp = activeProp[idx];
+
+        <span class="hljs-type">float</span> measAir  = <span class="hljs-built_in">adcToPressure</span>(<span class="hljs-built_in">analogRead</span>(ADC_PIN_AIR));
+        <span class="hljs-type">float</span> measProp = <span class="hljs-built_in">adcToPressure</span>(<span class="hljs-built_in">analogRead</span>(ADC_PIN_PROP));
+
+        <span class="hljs-type">float</span> outAir  = <span class="hljs-built_in">pidUpdate</span>(pidAir,  spAir,  measAir,  dtSec);
+        <span class="hljs-type">float</span> outProp = <span class="hljs-built_in">pidUpdate</span>(pidProp, spProp, measProp, dtSec);
+
+        <span class="hljs-built_in">dacWrite</span>(DAC_PIN_AIR,  (<span class="hljs-type">uint8_t</span>)outAir);
+        <span class="hljs-built_in">dacWrite</span>(DAC_PIN_PROP, (<span class="hljs-type">uint8_t</span>)outProp);
+
+        <span class="hljs-comment">// Serial telemetry</span>
+        Serial.<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;t=%lus SP_air=%.2f M_air=%.2f OUT_air=%.0f | SP_prop=%.2f M_prop=%.2f OUT_prop=%.0f\n&quot;</span>,
+            (nowMs - profileStartMs) / <span class="hljs-number">1000UL</span>,
+            spAir, measAir, outAir,
+            spProp, measProp, outProp);
+    }
+}
+</div></code></pre>
+
+</body>
+</html>
